@@ -24,8 +24,7 @@ function startPlayer(absolutePath) {
   return player;
 }
 
-export function play(absolutePath) {
-
+export function loop(absolutePath) {
   let player;
   const loop = () => {
     player = startPlayer(absolutePath);
@@ -39,4 +38,9 @@ export function play(absolutePath) {
     player.off('exit', loop);
     player.send({ type: 'stop' }); 
   };
+}
+
+export function play(absolutePath) {
+  const player = startPlayer(absolutePath);
+  return () => player.send({ type: 'stop' });
 }

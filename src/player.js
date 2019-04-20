@@ -24,6 +24,8 @@ function start(path) {
     return;
   }
 
+  console.log(`playing ${path}`);
+
   function play() {
     speaker = new Speaker(audioOptions);
     speaker.on('flush', () => process.send({ type: 'end' }));
