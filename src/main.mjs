@@ -6,10 +6,21 @@
 
 import path from 'path';
 import { play } from './audio';
-import { __dirname } from './util';
+import { __dirname, clamp } from './util';
+import loops from './loops';
+import InputCounter from './input-counter';
 
-const PEW = path.resolve(__dirname, '..', 'audio', 'pew.mp3');
-const DRONE = path.resolve(__dirname, '..', 'audio', 'layer0-drone.mp3');
+function cleanup() {
+  stopTrack();
+}
 
-const stop = play(DRONE);
+let stopTrack = play(loops[0]);
+new InputCounter(num => {
+  const index = clamp(num, 0, loops.length - 1);
+  setTimeout(stopTrack, 500);
+  stopTrack = play(loops[index]);
+});
 
+process
+  .on('exit', cleanup)
+  .on('SIGINT', cleanup);

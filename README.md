@@ -9,8 +9,10 @@
 1. `sudo apt-get install git`
 2. `git clone https://github.com/Continuities/wyrdheim-pi.git`
 
-## Install omxplayer
-1. `sudo apt-get install omxplayer`
+## Install ALSA audio backend
+1. `sudo apt-get install libasound2-dev`
+2. `sudo amixer cset numid=1 100%`
 
-## Run the damn thing!
-1. `yarn start`
+## Build and run the damn thing!
+1. `yarn`
+2. `yarn start`

@@ -25,12 +25,8 @@ function start(path) {
   }
 
   function play() {
-    console.log('play');
     speaker = new Speaker(audioOptions);
-    speaker.on('flush', () => {
-      console.log('flush');
-      setTimeout(play, 1000);
-    });
+    speaker.on('flush', () => process.send({ type: 'end' }));
     stream = fs.createReadStream(path);
     stream
       .pipe(new lame.Decoder())

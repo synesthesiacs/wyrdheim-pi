@@ -25,11 +25,13 @@ function startPlayer(absolutePath) {
 }
 
 export function play(absolutePath) {
-  
+
   let player;
   const loop = () => {
     player = startPlayer(absolutePath);
-    player.on('exit', loop);
+    player.on('message', ({ type }) => {
+      if (type === 'end') loop();
+    });
   };
   loop();
 

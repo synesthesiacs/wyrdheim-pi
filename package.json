@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "lame": "^1.2.4",
+    "onoff": "^4.1.1",
     "speaker": "^0.4.1"
   }
 }
