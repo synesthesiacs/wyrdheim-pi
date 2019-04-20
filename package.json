@@ -1,0 +1,15 @@
+{
+  "name": "wyrdheim-pi",
+  "version": "1.0.0",
+  "main": "src/main.mjs",
+  "repository": "git@github.com:Continuities/wyrdheim-pi.git",
+  "author": "Michael Townsend <michael@doublespeakgames.com>",
+  "license": "MPL2",
+  "scripts": {
+    "start": "node --experimental-modules src/main.mjs"
+  },
+  "dependencies": {
+    "lame": "^1.2.4",
+    "speaker": "^0.4.1"
+  }
+}
