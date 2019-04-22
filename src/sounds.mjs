@@ -1,3 +1,9 @@
+/**
+ * Sound provider
+ * @author mtownsend
+ * @since April 2019
+ */
+ 
 import path from 'path';
 import { __dirname } from './util';
 

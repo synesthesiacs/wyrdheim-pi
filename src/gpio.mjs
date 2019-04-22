@@ -1,3 +1,9 @@
+/**
+ * GPIO abstraction to support mocking
+ * @author mtownsend
+ * @since April 2019
+ */
+
 import onoff from 'onoff';
 import { MOCK_GPIO } from './constants';
 

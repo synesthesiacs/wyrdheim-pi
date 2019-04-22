@@ -1,3 +1,10 @@
+/**
+ * Increments an internal value and notifies watchers
+ * whenever a pin is triggered
+ * @author mtownsend
+ * @since April 2019 
+ */
+
 import { connect } from './gpio';
 import { TRIGGER_PINS } from './constants';
 

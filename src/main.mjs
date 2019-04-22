@@ -4,12 +4,8 @@
  * @since April 2019
  */
 
-import path from 'path';
-import { play, loop } from './audio';
-import { __dirname, clamp } from './util';
-import { loops, rune, compartment } from './sounds';
 import InputCounter from './input-counter';
-import { connect, triggerMock } from './gpio';
+import { connect } from './gpio';
 import { OUTPUT_PIN, COMPARTMENT_PIN, NUM_DRONES } from './constants';
 import { setDrone, onRuneTriggered, onCompartmentTriggered, stop } from './audio-controller';
 
@@ -34,12 +30,7 @@ new InputCounter(async num => {
 // Set up the compartment trigger sound
 COMPARTMENT.watch(onCompartmentTriggered);
 
-// TODO: Remove this stuff before merging //
-setTimeout(() => { 
-  [ 5, 6, 13, 19 ].forEach(triggerMock);
-}, 3000);
-//////
-
+// Make sure everything stops when the app is closed
 process
   .on('exit', cleanup)
   .on('SIGINT', cleanup);
