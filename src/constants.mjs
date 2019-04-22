@@ -11,3 +11,5 @@ export const COMPARTMENT_PIN = 26;
 export const NUM_DRONES = 5;
 export const DEBOUNCE_WINDOW = 500; // ms
 export const MAX_PLAYER_LIFE = 3 * 60 * 60 * 1000; // ms
+export const TIMER = 6 * 60 * 60 * 1000;
+export const MAKE_IT_BETTER = false;
