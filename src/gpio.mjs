@@ -23,7 +23,9 @@ function GpioMock(triggerInterval = 1000) {
 
   this.write = function(val, cb) {
     console.log(`GPIO write: ${val}`);
-    cb();
+    if (cb) {
+      cb();
+    }
   }
 
   setInterval(() => {
