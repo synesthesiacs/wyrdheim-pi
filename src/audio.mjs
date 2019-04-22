@@ -41,6 +41,10 @@ export function loop(absolutePath) {
 }
 
 export function play(absolutePath) {
-  const player = startPlayer(absolutePath);
-  return () => player.send({ type: 'stop' });
+  return new Promise(resolve => {
+    const player = startPlayer(absolutePath);
+    player.on('message', ({ type }) => {
+      if (type === 'end') resolve();
+    });
+  });
 }

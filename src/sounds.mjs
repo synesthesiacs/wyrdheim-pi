@@ -13,7 +13,5 @@ export const loops = [
   'layer4.mp3'
 ].map(resolvePath);
 
-export const triggers = [
-  'triggerA-compartment.mp3',
-  'triggerB-rune.mp3'
-].map(resolvePath);
+export const compartment = resolvePath('triggerA-compartment.mp3');
+export const rune = resolvePath('triggerB-rune.mp3');

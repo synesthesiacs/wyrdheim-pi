@@ -1,17 +1,7 @@
-import onoff from 'onoff';
-import GpioMock from './gpio-mock';
+import { connect } from './gpio';
+import { TRIGGER_PINS } from './constants';
 
-const INPUT_PINS = [ 5, 6, 13, 19 ].map(makeGpio);
-
-function makeGpio(pin) {
-  try {
-    return new onoff.Gpio(p, 'in', 'rising');
-  }
-  catch {
-    // Can't GPIO, so mock it for testing
-    return new GpioMock(pin * 1500);
-  }
-}
+const INPUTS = TRIGGER_PINS.map(pin => connect(pin, 'in', 'rising'));
 
 export default function InputCounter(changeHandler) {
 
@@ -21,6 +11,6 @@ export default function InputCounter(changeHandler) {
     this.unwatch(increment);
   };
 
-  INPUT_PINS.forEach(p => p.watch(increment));
+  INPUTS.forEach(p => p.watch(increment));
 }
 
