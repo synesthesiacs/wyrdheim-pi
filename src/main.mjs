@@ -10,42 +10,34 @@ import { __dirname, clamp } from './util';
 import { loops, rune, compartment } from './sounds';
 import InputCounter from './input-counter';
 import { connect, triggerMock } from './gpio';
-import { OUTPUT_PIN, COMPARTMENT_PIN } from './constants';
+import { OUTPUT_PIN, COMPARTMENT_PIN, NUM_DRONES } from './constants';
+import { setDrone, onRuneTriggered, onCompartmentTriggered, stop } from './audio-controller';
 
 const OUTPUT = connect(OUTPUT_PIN, 'out');
 const COMPARTMENT = connect(COMPARTMENT_PIN, 'in', 'rising');
 
 function cleanup() {
-  stopTrack();
+  stop();
 }
 
 // Set up the incrementing drone loops
-let currentIndex = 0;
-let stopTrack = loop(loops[currentIndex]);
+setDrone(0);
 new InputCounter(async num => {
-  const index = currentIndex = clamp(num, 0, loops.length - 1);
-  setTimeout(stopTrack, 500); // slight delay to make the change seamless
-  await play(rune);
-  if (index !== currentIndex) {
-    // Two increments happened in quick succession, and this one 
-    // is now obsolete.
-    return;
-  }
-  stopTrack = loop(loops[index]);
-  if (num >= loops.length - 1) {
+  onRuneTriggered();
+  setDrone(num);
+  if (num >= NUM_DRONES - 1) {
     // Fully incremented, so signal the servo arduino
     OUTPUT.write(1);
   }
 });
 
 // Set up the compartment trigger sound
-COMPARTMENT.watch(() => {
-  play(compartment);
-});
+COMPARTMENT.watch(onCompartmentTriggered);
 
 // TODO: Remove this stuff before merging //
-setTimeout(() => { triggerMock(13); }, 3000);
-setTimeout(() => { triggerMock(5); }, 4000);
+setTimeout(() => { 
+  [ 5, 6, 13, 19 ].forEach(triggerMock);
+}, 3000);
 //////
 
 process
