@@ -1,34 +1,44 @@
 import onoff from 'onoff';
 import { MOCK_GPIO } from './constants';
 
+const mockTriggers = {};
+
 export function connect(pin, ...args) {
   if (MOCK_GPIO) {
-    return new GpioMock(pin * 1500);
-    
+    const { gpio, trigger } = mockGpio();
+    mockTriggers[pin] = trigger;
+    return gpio;
   }
   return new onoff.Gpio(pin, ...args);
 }
 
+export function triggerMock(pin) {
+  mockTriggers[pin]();
+}
+
 // Mock GPIO for testing
-function GpioMock(triggerInterval = 1000) {
+function mockGpio() {
+
   let watches = [];
 
-  this.watch = function(callback) {
-    watches.push(callback); 
-  };
-
-  this.unwatch = function(callback) {
-    watches = watches.filter(c => c !== callback);
-  };
-
-  this.write = function(val, cb) {
-    console.log(`GPIO write: ${val}`);
-    if (cb) {
-      cb();
+  const gpio = {
+    watch: callback => {
+      watches.push(callback); 
+    },
+    unwatch: callback => {
+      watches = watches.filter(c => c !== callback);
+    },
+    write: (val, cb) => {
+      console.log(`GPIO write: ${val}`);
+      if (cb) {
+        cb();
+      }
     }
-  }
+  };
 
-  setInterval(() => {
-    watches.forEach(cb => cb.call(this));
-  }, triggerInterval);
+  return {
+    gpio,
+    trigger: () => watches.forEach(cb => cb.call(gpio))
+  };
+
 }
