@@ -8,6 +8,7 @@
 ## Install git, and clone the repo
 1. `sudo apt-get install git`
 2. `git clone https://github.com/Continuities/wyrdheim-pi.git`
+3. `cd wrydheim-pi`
 
 ## Install ALSA audio backend
 1. `sudo apt-get install libasound2-dev`
