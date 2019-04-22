@@ -42,8 +42,20 @@ function stop() {
     // What's not started may never stop
     return;
   }
-  speaker.close();
-  stream.close();
+  
+  try {
+    speaker.close();
+  }
+  catch {
+    console.log(`Couldn't close the speaker.`);
+  }
+
+  try {
+    stream.close();
+  }
+  catch {
+    console.log(`Couldn't close the stream.`);
+  }
 }
 
 process.on('message', ({ type, ...args }) => { 

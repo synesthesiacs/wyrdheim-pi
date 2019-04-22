@@ -26,17 +26,19 @@ function startPlayer(absolutePath) {
 
 export function loop(absolutePath) {
   let player;
+  const handler = ({ type }) => { if (type === 'end') loop(); };
   const loop = () => {
     player = startPlayer(absolutePath);
-    player.on('message', ({ type }) => {
-      if (type === 'end') loop();
-    });
+    player.on('message', handler);
   };
+
   loop();
 
   return () => {
-    player.off('exit', loop);
-    player.send({ type: 'stop' }); 
+    player.off('message', handler);
+    if (player.connected) {
+      player.send({ type: 'stop' }); 
+    }
   };
 }
 
