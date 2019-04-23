@@ -13,29 +13,21 @@ import { __dirname } from './util';
 
 const PLAYER = path.resolve(__dirname, 'player.js');
 
-function startPlayer(absolutePath) {
+function startPlayer(absolutePath, loop = false) {
   // We're forking the player here because of this bug
   // https://github.com/TooTallNate/node-speaker/issues/92
   const player = fork(PLAYER);
   player.send({
     type: 'play',
-    path: absolutePath
+    path: absolutePath,
+    loop
   });
   return player;
 }
 
 export function loop(absolutePath) {
-  let player;
-  const handler = ({ type }) => { if (type === 'end') loop(); };
-  const loop = () => {
-    player = startPlayer(absolutePath);
-    player.on('message', handler);
-  };
-
-  loop();
-
+  const player = startPlayer(absolutePath, true);
   return () => {
-    player.off('message', handler);
     if (player.connected) {
       player.send({ type: 'stop' }); 
     }

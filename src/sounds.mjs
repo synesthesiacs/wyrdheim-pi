@@ -21,3 +21,4 @@ export const loops = [
 
 export const compartment = resolvePath('triggerA-compartment.mp3');
 export const rune = resolvePath('triggerB-rune.mp3');
+export const test = resolvePath('test.mp3');

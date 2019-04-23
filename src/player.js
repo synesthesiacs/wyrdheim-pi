@@ -4,7 +4,8 @@
  * @since April 2019
  */
 
-const fs = require('fs');
+const { Readable } = require('stream');
+const { createReadStream } = require('fs');
 const Speaker = require('speaker');
 const lame = require('lame');
 
@@ -18,18 +19,18 @@ const audioOptions = {
 let speaker = null;
 let stream = null;
 
-function start(path) {
+function start(path, loop) {
   if (speaker != null || stream != null) {
     // Can't reuse players
     return;
   }
 
-  console.log(`playing ${path}`);
+  console.log(`${loop ? 'looping' : 'playing'} ${path}`);
 
   function play() {
     speaker = new Speaker(audioOptions);
     speaker.on('flush', () => process.send({ type: 'end' }));
-    stream = fs.createReadStream(path);
+    stream = loop ? createLoopingStream(path) : createReadStream(path);
     stream
       .pipe(new lame.Decoder())
       .pipe(speaker);
@@ -61,8 +62,37 @@ function stop() {
 process.on('message', ({ type, ...args }) => { 
   switch (type) {
     case 'play':
-      return start(args.path);
+      return start(args.path, args.loop);
     case 'stop':
       return stop();
   }
 });
+
+function createLoopingStream(absolutePath) {
+
+  const loopStream = new Readable({
+    read(s) {
+      // Ready for more data
+      currentStream.resume();
+    }
+  });
+
+  let currentStream;
+  (function attachNewStream() {
+    currentStream = createReadStream(absolutePath);
+    // Dump the data from the regular ReadStream into our weird one.
+    currentStream.on('data', chunk => {
+      const canPushMore = loopStream.push(chunk);
+      if (!canPushMore) {
+        // Don't flood the stream
+        currentStream.pause();
+      }
+    });
+    // When the stream runs out, make a new one
+    currentStream.on('end', () => {
+      attachNewStream();
+    });
+  })();
+
+  return loopStream;
+}

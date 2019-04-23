@@ -5,7 +5,7 @@
  */
 
 import InputCounter from './input-counter';
-import { connect } from './gpio';
+import { connect, triggerMock } from './gpio';
 import { OUTPUT_PIN, COMPARTMENT_PIN, NUM_DRONES } from './constants';
 import { setDrone, onRuneTriggered, onCompartmentTriggered, stop } from './audio-controller';
 
@@ -29,6 +29,8 @@ new InputCounter(async num => {
 
 // Set up the compartment trigger sound
 COMPARTMENT.watch(onCompartmentTriggered);
+
+// setTimeout(() => triggerMock(COMPARTMENT_PIN), 3000);
 
 // Make sure everything stops when the app is closed
 process
