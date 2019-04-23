@@ -14,6 +14,7 @@ const OUTPUT = connect(OUTPUT_PIN, 'out');
 const COMPARTMENT = connect(COMPARTMENT_PIN, 'in', 'rising');
 
 function cleanup() {
+  console.log('Daisy, Daisy, give me your answer do...')
   stop();
 }
 
@@ -34,4 +35,6 @@ COMPARTMENT.watch(debounced(onCompartmentTriggered, DEBOUNCE_WINDOW));
 // Make sure everything stops when the app is closed
 process
   .on('exit', cleanup)
-  .on('SIGINT', cleanup);
+  .on('SIGINT', () => {
+    process.exit(1);
+  });
