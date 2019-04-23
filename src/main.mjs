@@ -6,8 +6,9 @@
 
 import InputCounter from './input-counter';
 import { connect } from './gpio';
-import { OUTPUT_PIN, COMPARTMENT_PIN, NUM_DRONES } from './constants';
+import { OUTPUT_PIN, COMPARTMENT_PIN, NUM_DRONES, DEBOUNCE_WINDOW } from './constants';
 import { setDrone, onRuneTriggered, onCompartmentTriggered, stop } from './audio-controller';
+import { debounced } from './util';
 
 const OUTPUT = connect(OUTPUT_PIN, 'out');
 const COMPARTMENT = connect(COMPARTMENT_PIN, 'in', 'rising');
@@ -28,7 +29,7 @@ new InputCounter(async num => {
 });
 
 // Set up the compartment trigger sound
-COMPARTMENT.watch(onCompartmentTriggered);
+COMPARTMENT.watch(debounced(onCompartmentTriggered, DEBOUNCE_WINDOW));
 
 // Make sure everything stops when the app is closed
 process
