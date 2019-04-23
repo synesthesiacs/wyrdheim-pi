@@ -5,7 +5,7 @@
  */
 
 import { NUM_DRONES } from './constants';
-import { loops, rune, compartment } from './sounds';
+import { loops, rune, compartment, test } from './sounds';
 import { clamp } from './util';
 import { loop, play } from './audio';
 import ExecutionQueue from './execution-queue';
