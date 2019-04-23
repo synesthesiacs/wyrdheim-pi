@@ -47,15 +47,15 @@ function stop() {
   try {
     speaker.close();
   }
-  catch {
-    console.log(`Couldn't close the speaker.`);
+  catch(e) {
+    console.log(`Couldn't close the speaker. ${e}`);
   }
 
   try {
     stream.close();
   }
-  catch {
-    console.log(`Couldn't close the stream.`);
+  catch(e) {
+    console.log(`Couldn't close the stream. ${e}`);
   }
 }
 
@@ -68,6 +68,10 @@ process.on('message', ({ type, ...args }) => {
   }
 });
 
+/**
+ * A ReadableStream that never ends! This provides seamless audio
+ * looping when piped to a speaker. 
+ */
 function createLoopingStream(absolutePath) {
 
   const loopStream = new Readable({
@@ -76,6 +80,9 @@ function createLoopingStream(absolutePath) {
       currentStream.resume();
     }
   });
+  loopStream.close = () => {
+    currentStream.close();
+  }
 
   let currentStream;
   (function attachNewStream() {

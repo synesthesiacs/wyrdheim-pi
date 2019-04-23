@@ -1,5 +1,5 @@
 /**
- * Simple audio interface for looping mp3 files
+ * Simple audio interface for playing mp3 files
  * @author mtownsend
  * @since April 2019
  */
