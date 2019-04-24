@@ -97,6 +97,7 @@ function createLoopingStream(absolutePath) {
     });
     // When the stream runs out, make a new one
     currentStream.on('end', () => {
+      currentStream.removeAllListeners();
       attachNewStream();
     });
   })();
