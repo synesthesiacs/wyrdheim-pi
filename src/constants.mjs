@@ -11,13 +11,8 @@ export const TRIGGER_PINS = [ 5, 6, 13, 19 ];
 export const COMPARTMENT_PIN = 26;
 export const SELECTOR_PIN = 16;
 export const NUM_DRONES = 5;
-<<<<<<< HEAD
-export const DEBOUNCE_WINDOW = 20; // ms
-export const MAX_PLAYER_LIFE = 3 * 60 * 60 * 1000; // ms
-export const PULSE_BUFFER = DEBOUNCE_WINDOW * 4;
-=======
 export const DEBOUNCE_WINDOW = 500; // ms
-export const MAX_PLAYER_LIFE = 3 * 60 * 60 * 1000; // ms
 export const TIMER = 6 * 60 * 60 * 1000;
 export const MAKE_IT_BETTER = false;
->>>>>>> Improve audio subsystem
+export const PULSE_BUFFER = DEBOUNCE_WINDOW * 4;
+export const MAX_PLAYER_LIFE = 3 * 60 * 60 * 1000; // ms
