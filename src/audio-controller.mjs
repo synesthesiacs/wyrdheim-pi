@@ -4,7 +4,7 @@
  * @since April 2019
  */
 
-import { NUM_DRONES } from './constants';
+import { NUM_DRONES, MAX_PLAYER_LIFE } from './constants';
 import { loops, rune, compartment, test } from './sounds';
 import { clamp } from './util';
 import { loop, play } from './audio';
@@ -14,26 +14,38 @@ let droneIndex = null;
 let stopDrone = () => {};
 let playQueue = [];
 let playing = false;
+let droneKiller;
 
 const queue = new ExecutionQueue(async sound => {
   if (!playing) {
     playing = true;
-    setTimeout(stopDrone, 500);
+    stopDrone();
   }
   return play(sound);
 }, () => {
   playing = false;
-  stopDrone = loop(loops[droneIndex]);
+  restartDrone();
 });
+
+function restartDrone() {
+  if (playing) { return; }
+
+  // There's a little memory leak somewhere in the player.
+  // Might be my code, might be in a library I'm using.
+  // Regardless, I don't want to hunt for it so I'm just
+  // going to restart the drone player every few hours. lol.
+  droneKiller && clearTimeout(droneKiller);
+  droneKiller = setTimeout(restartDrone, MAX_PLAYER_LIFE);
+
+  stopDrone();
+  stopDrone = loop(loops[droneIndex]);  
+}
 
 export function setDrone(index) {
   index = clamp(index, 0, NUM_DRONES - 1);
   if (index === droneIndex) { return; }
   droneIndex = index;
-  if (!playing) {
-    setTimeout(stopDrone, 500);
-    stopDrone = loop(loops[index]);
-  }
+  restartDrone();
 }
 
 export async function onRuneTriggered() {
