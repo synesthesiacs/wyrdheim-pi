@@ -5,14 +5,9 @@
  * @since April 2019 
  */
 
-import { connect } from './gpio';
-import { TRIGGER_PINS } from './constants';
-
-const INPUTS = TRIGGER_PINS.map(pin => connect(pin, 'in', 'rising'));
-
-export default function InputCounter(changeHandler) {
+export default function InputCounter(inputs, changeHandler) {
   let count = 0;
-  INPUTS.forEach(p => {
+  inputs.forEach(p => {
     p.watch(function increment() {
       changeHandler(++count);
       p.unwatch(increment);
