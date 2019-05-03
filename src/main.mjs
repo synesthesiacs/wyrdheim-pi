@@ -33,7 +33,7 @@ new InputCounter(triggers, num => {
   setDrone(num);
   if (num >= NUM_DRONES - 1) {
     // Fully incremented, so signal the servo arduino
-    OUTPUT.write(1);
+    output.write(1);
   }
 });
 
