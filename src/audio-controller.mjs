@@ -4,7 +4,7 @@
  * @since April 2019
  */
 
-import { NUM_DRONES, MAX_PLAYER_LIFE, TIMER, MAKE_IT_BETTER } from './constants';
+import { MAX_PLAYER_LIFE, TIMER, MAKE_IT_BETTER } from './constants';
 import { loops, rune, compartment, layer0 } from './sounds';
 import { clamp } from './util';
 import { loop, play } from './audio';
@@ -49,7 +49,7 @@ MAKE_IT_BETTER && (function queueTimer() {
 })();
 
 export function setDrone(index) {
-  index = clamp(index, 0, NUM_DRONES - 1);
+  index = clamp(index, 0, loops.length - 1);
   if (index === droneIndex) { return; }
   droneIndex = index;
   restartDrone();
