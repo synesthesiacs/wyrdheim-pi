@@ -16,7 +16,10 @@ export const loops = [
   'layer1.mp3',
   'layer2.mp3',
   'layer3.mp3',
-  'layer4.mp3'
+  'layer-4.mp3',
+  'variation5.mp3',
+  'variation6.mp3',
+  'variation7.mp3'
 ].map(resolvePath);
 
 export const layer0 = resolvePath('layer0.mp3');
