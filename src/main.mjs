@@ -40,7 +40,7 @@ new InputCounter(triggers, num => {
 
 // Set up the post-rune drone selector
 new PulseDecoder(selector, index => {
-  setDrone(triggers.length + clamp(index, 1, 4) - 2);
+  setDrone(triggers.length + clamp(index, 1, 4) - 1);
 });
 
 // Make sure everything stops when the app is closed
