@@ -32,7 +32,7 @@ compartment.watch(debounced(onCompartmentTriggered, DEBOUNCE_WINDOW));
 setDrone(0);
 new InputCounter(triggers, num => {
   setDrone(num);
-  if (num >= triggers.length - 1) {
+  if (num >= triggers.length) {
     // Fully incremented, so signal the servo arduino
     output.write(1);
   }
