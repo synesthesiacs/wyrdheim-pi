@@ -15,10 +15,8 @@ export default function PulseDecoder(input, signalHandler) {
   let count = 0;
 
   input.watch(debounced(() => {
-    console.log('Got a pulse signal');
     decodeTimer && clearTimeout(decodeTimer);
     decodeTimer = setTimeout(() => {
-      console.log('Decoding pulses...');
       signalHandler(count);
       count = 0;
     }, PULSE_BUFFER);
