@@ -47,6 +47,7 @@ setTimeout(() => {
 
   // Set up the post-rune drone selector
   new PulseDecoder(selector, index => {
+    console.log(`Got a decoded pulse for index ${index}. Phase2 is ${phase2}.`);
     phase2 && setDrone(triggers.length + clamp(index, 1, 4) - 1);
   });
 
