@@ -7,7 +7,7 @@
 export const MOCK_GPIO = false;
 export const BOOT_DELAY = 10 * 1000; // ms
 export const OUTPUT_PIN = 4;
-export const TRIGGER_PINS = [ 5, 6, 13, 19 ];
+export const TRIGGER_PINS = [ 23, 24, 13, 19 ];
 export const COMPARTMENT_PIN = 26;
 export const SELECTOR_PIN = 16;
 export const TIMER = 12 * 60 * 60 * 1000;
